@@ -1,13 +1,7 @@
 package com.paytmbank.middleware.emgs.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,9 +14,15 @@ import lombok.Setter;
 public class Employee {
 	@Id
 	private String eid;
+	@Column(unique = true)
 	private String email;
+	@Column(unique = true)
 	private String phone;
+
 	private String fname, sname;
+	private Timestamp createdDate;
+	private Timestamp deletedDate;
+	private boolean isActive;
 	
 	@JsonIgnore
 	@ManyToOne
