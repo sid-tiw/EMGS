@@ -20,4 +20,7 @@ public class Department {
 
 	@OneToMany(mappedBy = "dpt")
 	List<Employee> emps;
+
+	@OneToMany(mappedBy = "dpt")
+	List<Project> projects;
 }
