@@ -1,4 +1,4 @@
-package com.paytmbank.middleware.emgs.Repository;
+package com.paytmbank.middleware.emgs.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

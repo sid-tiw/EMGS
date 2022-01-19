@@ -1,4 +1,4 @@
-package com.paytmbank.middleware.emgs.Repository;
+package com.paytmbank.middleware.emgs.repository;
 
 import com.paytmbank.middleware.emgs.entity.Project;
 
