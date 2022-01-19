@@ -14,13 +14,13 @@ import java.util.List;
 @Getter @Setter @NoArgsConstructor
 public class Department {
 	@Id
-	public String deptID;
-	public String name;
-	public String desc; // description of the depratment
+	private String deptID;
+	private String name;
+	private String desc; // description of the depratment
 
 	@OneToMany(mappedBy = "dpt")
-	List<Employee> emps;
+	private List<Employee> emps;
 
 	@OneToMany(mappedBy = "dpt")
-	List<Project> projects;
+	private List<Project> projects;
 }
