@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DepartmentController {
-    @Autowired
-    DepartmentService
+//    @Autowired
+//    DepartmentService
 }
