@@ -19,17 +19,17 @@ import java.util.List;
 @Getter @Setter @NoArgsConstructor
 public class Project {
 	@Id
-	public String pid;
-	public String name;
+	private String pid;
+	private String name;
 	
-	public Date startDate;
-	public Date endDate; // expected end date. Can be null.
+	private Date startDate;
+	private Date endDate; // expected end date. Can be null.
 	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn
-	public Department dpt;
+	private Department dpt;
 
 	@OneToMany(mappedBy = "pid")
-	List<Employee> emps; // all the employees in a certain project
+	private List<Employee> emps; // all the employees in a certain project
 }
