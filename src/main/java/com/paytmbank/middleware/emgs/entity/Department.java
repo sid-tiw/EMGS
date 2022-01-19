@@ -1,6 +1,7 @@
 package com.paytmbank.middleware.emgs.entity;
 
 import javax.persistence.Id;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -16,6 +17,8 @@ public class Department {
 	@Id
 	private String deptID;
 	private String name;
+
+	@Column(name = "`desc`")
 	private String desc; // description of the depratment
 
 	@OneToMany(mappedBy = "dpt")

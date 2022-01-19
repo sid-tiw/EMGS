@@ -3,6 +3,7 @@ package com.paytmbank.middleware.emgs.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.sql.Date;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
+@Table(name = "`leave`")
 public class Leave {
 	@Id
 	private String lid;

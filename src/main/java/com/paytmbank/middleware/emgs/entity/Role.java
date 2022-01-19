@@ -1,5 +1,6 @@
 package com.paytmbank.middleware.emgs.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,6 +21,7 @@ public class Role {
 
 	/* Role Description. */
 	/* The size of desc might be more than the maximum size allowed. Check back here if any error occurs. */
+	@Column (name = "`desc`")
 	public String desc;
 
 	/* List of all the employees in the given role. */
