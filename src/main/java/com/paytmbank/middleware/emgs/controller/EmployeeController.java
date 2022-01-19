@@ -1,5 +1,6 @@
 package com.paytmbank.middleware.emgs.controller;
 
+import com.paytmbank.middleware.emgs.details.EmployeeDetailsBasic;
 import com.paytmbank.middleware.emgs.entity.Employee;
 import com.paytmbank.middleware.emgs.service.EmployeeService;
 import lombok.NoArgsConstructor;
@@ -29,12 +30,17 @@ public class EmployeeController {
     /* As the name suggests, it will create a new employee, with validity tests that will take place in the service class */
     @PostMapping("/createEmployee")
     public ResponseEntity<?> createNewEmployee(@RequestBody Employee emp) {
+        EmployeeDetailsBasic obj = new EmployeeDetailsBasic();
         try {
             employeeService.create(emp);
         } catch (Exception e) {
-            System.out.println(emp.getEmail());
-            return ResponseEntity.badRequest().body(e.getLocalizedMessage());
+            obj.setStatus("Failed!");
+            obj.setErrorDesc(e.getLocalizedMessage());
+
+            return ResponseEntity.badRequest().body(obj);
         }
-        return ResponseEntity.ok().body("User created successfully.");
+        obj = new EmployeeDetailsBasic(emp.getEid(), emp.getFname(), emp.getSname());
+
+        return ResponseEntity.ok().body(obj);
     }
 }
