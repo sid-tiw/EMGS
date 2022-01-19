@@ -27,7 +27,7 @@ public class Project {
 	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn
+	@JoinColumn(name = "dpt")
 	private Department dpt;
 
 	@OneToMany(mappedBy = "pid")
