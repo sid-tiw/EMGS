@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,7 +40,7 @@ public class Employee {
 	private Leave lid;
 
 	@JsonIgnore
-	@OneToOne
-	@JoinColummn(name = "rid")
+	@OneToMany
+	@JoinColumn(name = "rid")
 	private Role rid;
 }
