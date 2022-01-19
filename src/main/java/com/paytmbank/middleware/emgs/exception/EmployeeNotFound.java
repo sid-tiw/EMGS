@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class EmployeeNotFound extends UsernameNotFoundException{
-	EmployeeNotFound(String message) {
+	public EmployeeNotFound(String message) {
 		super(message);
 	}
 }
