@@ -40,7 +40,7 @@ public class Employee {
 	private Leave lid;
 
 	@JsonIgnore
-	@OneToMany
+	@ManyToOne
 	@JoinColumn(name = "rid")
 	private Role rid;
 }
