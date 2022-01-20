@@ -89,4 +89,16 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body(obj);
         }
     }
+
+    /* The delete controller method */
+    @PostMapping("/delete/{eid}")
+    public ResponseEntity<?> delete(@PathVariable(name = "eid", required = true) String eid) {
+        EmployeeDetailsBasic obj = new EmployeeDetailsBasic();
+        try {
+            employeeService.delete(eid);
+            return ResponseEntity.ok().body("Delete successful.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getLocalizedMessage());
+        }
+    }
 }

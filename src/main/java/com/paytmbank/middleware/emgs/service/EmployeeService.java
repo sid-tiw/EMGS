@@ -75,4 +75,13 @@ public class EmployeeService {
 
 		this.save(emp);
 	}
+
+	/* Delete Employee function. First it finds which employee to delete
+    and if not found, then EmployeeNotFound error is returned, otherwise the
+    employee is deleted.
+     */
+	public void delete(String eid) throws EmployeeNotFound {
+		if (!empRepo.existsById(eid)) throw new EmployeeNotFound("No such employee ID.");
+		empRepo.delete(empRepo.getById(eid));
+	}
 }
