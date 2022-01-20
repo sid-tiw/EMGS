@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -74,6 +75,8 @@ public class EmployeeService {
 		/* Routine sets start here */
 		emp.setActive(true);
 		emp.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+		BCryptPasswordEncoder bp = new BCryptPasswordEncoder();
+		emp.setPassword(bp.encode(emp.getPassword()));
 		/* Routine sets end here */
 
 		this.save(emp);
