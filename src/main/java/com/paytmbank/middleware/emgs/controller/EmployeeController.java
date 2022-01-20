@@ -2,11 +2,15 @@ package com.paytmbank.middleware.emgs.controller;
 
 import com.paytmbank.middleware.emgs.details.EmployeeDetailsBasic;
 import com.paytmbank.middleware.emgs.entity.Employee;
+import com.paytmbank.middleware.emgs.exception.UnauthorizedUser;
+import com.paytmbank.middleware.emgs.security.UserSecurity;
 import com.paytmbank.middleware.emgs.service.EmployeeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -29,7 +33,16 @@ public class EmployeeController {
         /* Basic returnable object, detailing the error and status. */
         EmployeeDetailsBasic obj = new EmployeeDetailsBasic();
         try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String role = auth.getAuthorities().toArray()[0].toString();
+            if (role != "ROLE_ADMIN") throw new UnauthorizedUser("You must be admin to perform this operation.");
+
             employeeService.create(emp);
+        } catch (UnauthorizedUser e) {
+            obj.setStatus("Failure!");
+            obj.setErrorDesc(e.getLocalizedMessage());
+
+            return ResponseEntity.status(401).body(obj);
         } catch (Exception e) {
             obj.setStatus("Failure!");
             obj.setErrorDesc(e.getLocalizedMessage());

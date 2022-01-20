@@ -18,6 +18,8 @@ public class Employee {
 	private String email;
 	@Column(unique = true)
 	private String phone;
+	private String password;
+	private String role;
 
 	private String fname, sname;
 	private Timestamp createdDate;
