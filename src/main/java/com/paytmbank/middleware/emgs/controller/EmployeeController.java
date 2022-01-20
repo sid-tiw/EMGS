@@ -101,4 +101,19 @@ public class EmployeeController {
             return ResponseEntity.badRequest().body(e.getLocalizedMessage());
         }
     }
+
+    /* Update the employee */
+    @PostMapping("/update")
+    public ResponseEntity<?> update(@RequestBody Employee emp) {
+        EmployeeDetailsBasic obj = new EmployeeDetailsBasic();
+        try {
+            employeeService.update(emp);
+            obj = new EmployeeDetailsBasic(emp.getEid(), emp.getFname(), emp.getSname());
+            return ResponseEntity.ok().body(obj);
+        } catch (Exception e) {
+            obj.setStatus("Failure!");
+            obj.setErrorDesc(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(obj);
+        }
+    }
 }

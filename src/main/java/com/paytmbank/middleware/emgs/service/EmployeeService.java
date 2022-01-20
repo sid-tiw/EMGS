@@ -84,4 +84,12 @@ public class EmployeeService {
 		if (!empRepo.existsById(eid)) throw new EmployeeNotFound("No such employee ID.");
 		empRepo.delete(empRepo.getById(eid));
 	}
+
+	/* Update Employee function. Anything can be updated, except their eid.
+	 */
+	public void update(Employee emp) throws Exception {
+		if (!empRepo.existsById(emp.getEid())) throw new EmployeeNotFound("No such empolyee ID.");
+		empRepo.delete(empRepo.getById(emp.getEid()));
+		this.create(emp);
+	}
 }
