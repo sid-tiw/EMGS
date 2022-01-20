@@ -2,14 +2,12 @@ package com.paytmbank.middleware.emgs.controller;
 
 import com.paytmbank.middleware.emgs.details.DepartmentDetailsBasic;
 import com.paytmbank.middleware.emgs.entity.Department;
-import com.paytmbank.middleware.emgs.repository.DepartmentRepository;
 import com.paytmbank.middleware.emgs.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 public class DepartmentController {

@@ -16,11 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.regex.*;
 
 @Service

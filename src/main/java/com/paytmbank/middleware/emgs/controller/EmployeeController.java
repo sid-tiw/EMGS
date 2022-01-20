@@ -1,18 +1,14 @@
 package com.paytmbank.middleware.emgs.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytmbank.middleware.emgs.details.EmployeeDetailsBasic;
 import com.paytmbank.middleware.emgs.entity.Employee;
 import com.paytmbank.middleware.emgs.service.EmployeeService;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-import java.net.http.HttpResponse;
 
 @RestController
 public class EmployeeController {

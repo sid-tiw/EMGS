@@ -1,7 +1,6 @@
 package com.paytmbank.middleware.emgs.details;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter

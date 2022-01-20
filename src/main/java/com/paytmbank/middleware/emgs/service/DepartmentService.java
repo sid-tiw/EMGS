@@ -1,11 +1,8 @@
 package com.paytmbank.middleware.emgs.service;
 
 import com.paytmbank.middleware.emgs.entity.Department;
-import com.paytmbank.middleware.emgs.entity.Employee;
 import com.paytmbank.middleware.emgs.exception.DepartmentAlreadyPresent;
 import com.paytmbank.middleware.emgs.exception.DepartmentNotFound;
-import com.paytmbank.middleware.emgs.exception.EmployeeAlreadyPresent;
-import com.paytmbank.middleware.emgs.exception.RequestError;
 import com.paytmbank.middleware.emgs.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional
