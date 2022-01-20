@@ -1,6 +1,7 @@
 package com.paytmbank.middleware.emgs.service;
 
 import com.paytmbank.middleware.emgs.entity.Leave;
+import com.paytmbank.middleware.emgs.exception.RequestError;
 import com.paytmbank.middleware.emgs.repository.LeaveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,9 @@ public class LeaveService {
     }
 
     /* Create is for creating new leaves. */
-    public void create(Leave lv) {
+    public void create(Leave lv) throws Exception {
+        if (lv.getStartDate() == null) throw new RequestError("Invalid Start date!!");
+        if (lv.getEndDate() == null) throw new RequestError("Invalid End date!!");
         this.save(lv);
     }
 
