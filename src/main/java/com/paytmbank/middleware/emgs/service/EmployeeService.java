@@ -9,6 +9,8 @@ import com.paytmbank.middleware.emgs.exception.RequestError;
 import com.paytmbank.middleware.emgs.repository.EmployeeRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -28,13 +30,25 @@ public class EmployeeService {
 		empRepo.save(emp);
 	}
 
-	public List<Employee> listAll() {
-		return empRepo.findAll();
+	public Page<Employee> listAll() {
+		return empRepo.findAll(Pageable.ofSize(10));
 	}
 
 	public Employee find(String eid) throws EmployeeNotFound {
 		if (!empRepo.existsById(eid)) throw new EmployeeNotFound("No such employee ID.");
 		Employee emp = empRepo.findById(eid).get();
+		return emp;
+	}
+
+	public Employee findByPhone(String phone) throws EmployeeNotFound {
+		if (!empRepo.existsByPhone(phone)) throw new EmployeeNotFound("No employee with the given phone number.");
+		Employee emp = empRepo.findByPhone(phone);
+		return emp;
+	}
+
+	public Employee findByEmail(String email) throws EmployeeNotFound {
+		if (!empRepo.existsByEmail(email)) throw new EmployeeNotFound("No employee with the given email.");
+		Employee emp = empRepo.findByEmail(email);
 		return emp;
 	}
 
