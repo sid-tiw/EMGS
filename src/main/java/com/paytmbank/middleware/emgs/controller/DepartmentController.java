@@ -31,7 +31,7 @@ public class DepartmentController {
             departmentService.create(dept);
         } catch(Exception e) {
             obj.setErrorDesc(e.getLocalizedMessage());
-            obj.setStatus("Failed!");
+            obj.setStatus("Failure!");
             return ResponseEntity.badRequest().body(obj);
         }
         obj = new DepartmentDetailsBasic(dept.getDeptID(), dept.getName());
@@ -46,7 +46,7 @@ public class DepartmentController {
             Department dept = departmentService.get(id);
             return ResponseEntity.ok().body(dept);
         } catch(Exception e) {
-            obj.setStatus("Failed!");
+            obj.setStatus("Failure!");
             obj.setErrorDesc(e.getLocalizedMessage());
             return ResponseEntity.badRequest().body(obj);
         }
