@@ -25,7 +25,7 @@ public class DepartmentService {
         departmentRepository.save(dept);
     }
 
-    /* To create new employee. An employee object is passed, and then checks are done inside this function, before ultimately calling
+    /* To create new Department. A Department object is passed, and then checks are done inside this function, before ultimately calling
 	the save function inside here. */
     public void create(Department dept) throws Exception {
         /* Checks start here */

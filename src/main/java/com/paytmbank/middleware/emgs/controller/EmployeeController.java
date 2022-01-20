@@ -134,6 +134,25 @@ public class EmployeeController {
         }
     }
 
+    /* Grant leave to the employee
+    * Pass JSON data to this post method.
+    * The JSON data must contain these fields :
+    * "eid": {The employee Id}
+    * "lid": {The Leave Id (long type) } */
+    @PostMapping("/grantLeave")
+    public ResponseEntity<?> grantLeave(@RequestBody String data) {
+        EmployeeDetailsBasic obj = new EmployeeDetailsBasic();
+        try {
+            Employee emp = employeeService.grantLeave(data);
+            obj = new EmployeeDetailsBasic(emp.getEid(), emp.getFname(), emp.getSname());
+            return ResponseEntity.ok().body(obj);
+        } catch (Exception e) {
+            obj.setStatus("Failure");
+            obj.setErrorDesc(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(obj);
+        }
+    }
+
     /* Add project to Employee
     * Pass JSON data to this post method.
     * Must contain two fields :

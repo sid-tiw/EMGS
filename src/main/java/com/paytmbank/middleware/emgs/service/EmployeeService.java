@@ -3,10 +3,12 @@ package com.paytmbank.middleware.emgs.service;
 import javax.transaction.Transactional;
 
 import com.paytmbank.middleware.emgs.entity.Employee;
+import com.paytmbank.middleware.emgs.entity.Leave;
 import com.paytmbank.middleware.emgs.entity.Project;
 import com.paytmbank.middleware.emgs.exception.*;
 import com.paytmbank.middleware.emgs.repository.EmployeeRepository;
 
+import com.paytmbank.middleware.emgs.repository.LeaveRepository;
 import com.paytmbank.middleware.emgs.repository.ProjectRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,8 @@ public class EmployeeService {
 	private EmployeeRepository empRepo;
 	@Autowired
 	private ProjectRepository projectRepo;
+	@Autowired
+	private LeaveRepository leaveRepo;
 
 	public void save(Employee emp) {
 		empRepo.save(emp);
@@ -124,6 +128,26 @@ public class EmployeeService {
 		if (emp.getPid() != null) throw new ProjectAlreadyPresent("Project already assigned to the employee.");
 		Project prj = projectRepo.getById(eid);
 		emp.setPid(prj);
+		empRepo.save(emp);
+
+		return emp;
+	}
+
+	/* Grant leave to the employee.
+	 */
+	public Employee grantLeave(String data) throws Exception {
+		JSONObject jsonObject = new JSONObject(data);
+		String eid = jsonObject.getString("eid");
+		long lid = jsonObject.getLong("lid");
+
+		if (!empRepo.existsById(eid)) throw new EmployeeNotFound("No such employee ID.");
+		if (!leaveRepo.existsById(lid)) throw new LeaveNotFound("No such leave created. Ask your admin to create a leave first.");
+
+		Employee emp = empRepo.getById(eid);
+		if (emp.getLid() != null) throw new AlreadyOnLeave("Employee already on leave. The leave must be deleted explicitly.");
+		Leave lv = leaveRepo.getById(lid);
+		emp.setLid(lv);
+
 		empRepo.save(emp);
 
 		return emp;
