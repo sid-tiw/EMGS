@@ -20,7 +20,7 @@ import java.util.Random;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class EmgsApplicationTests {
+class EmployeeControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
