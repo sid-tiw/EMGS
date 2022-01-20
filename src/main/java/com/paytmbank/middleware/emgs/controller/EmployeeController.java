@@ -1,5 +1,6 @@
 package com.paytmbank.middleware.emgs.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytmbank.middleware.emgs.details.EmployeeDetailsBasic;
 import com.paytmbank.middleware.emgs.entity.Employee;
 import com.paytmbank.middleware.emgs.service.EmployeeService;
@@ -103,11 +104,46 @@ public class EmployeeController {
     }
 
     /* Update the employee */
-    @PostMapping("/update")
+    @PostMapping("/updateEmployee")
     public ResponseEntity<?> update(@RequestBody Employee emp) {
         EmployeeDetailsBasic obj = new EmployeeDetailsBasic();
         try {
             employeeService.update(emp);
+            obj = new EmployeeDetailsBasic(emp.getEid(), emp.getFname(), emp.getSname());
+            return ResponseEntity.ok().body(obj);
+        } catch (Exception e) {
+            obj.setStatus("Failure!");
+            obj.setErrorDesc(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(obj);
+        }
+    }
+
+    /* Drop project from employee */
+    @PostMapping("/dropProject/{eid}")
+    public ResponseEntity<?> dropProject(@PathVariable(name = "eid", required = true) String eid) {
+        EmployeeDetailsBasic obj = new EmployeeDetailsBasic();
+        try {
+            employeeService.dropProject(eid);
+            Employee emp = employeeService.find(eid);
+            obj = new EmployeeDetailsBasic(emp.getEid(), emp.getFname(), emp.getSname());
+            return ResponseEntity.ok().body(obj);
+        } catch (Exception e) {
+            obj.setStatus("Failure!");
+            obj.setErrorDesc(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(obj);
+        }
+    }
+
+    /* Add project to Employee
+    * Pass JSON data to this post method.
+    * Must contain two fields :
+    * "eid": {The Employee Id}
+    * "pid": {The Project Id} */
+    @PostMapping("/addProject/")
+    public ResponseEntity<?> addProject(@RequestBody String data) {
+        EmployeeDetailsBasic obj = new EmployeeDetailsBasic();
+        try {
+            Employee emp = employeeService.addProject(data);
             obj = new EmployeeDetailsBasic(emp.getEid(), emp.getFname(), emp.getSname());
             return ResponseEntity.ok().body(obj);
         } catch (Exception e) {

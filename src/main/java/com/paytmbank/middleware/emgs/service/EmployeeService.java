@@ -3,11 +3,12 @@ package com.paytmbank.middleware.emgs.service;
 import javax.transaction.Transactional;
 
 import com.paytmbank.middleware.emgs.entity.Employee;
-import com.paytmbank.middleware.emgs.exception.EmployeeAlreadyPresent;
-import com.paytmbank.middleware.emgs.exception.EmployeeNotFound;
-import com.paytmbank.middleware.emgs.exception.RequestError;
+import com.paytmbank.middleware.emgs.entity.Project;
+import com.paytmbank.middleware.emgs.exception.*;
 import com.paytmbank.middleware.emgs.repository.EmployeeRepository;
 
+import com.paytmbank.middleware.emgs.repository.ProjectRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,8 @@ import java.util.regex.*;
 public class EmployeeService {
 	@Autowired
 	private EmployeeRepository empRepo;
+	@Autowired
+	private ProjectRepository projectRepo;
 
 	public void save(Employee emp) {
 		empRepo.save(emp);
@@ -82,14 +85,47 @@ public class EmployeeService {
      */
 	public void delete(String eid) throws EmployeeNotFound {
 		if (!empRepo.existsById(eid)) throw new EmployeeNotFound("No such employee ID.");
-		empRepo.delete(empRepo.getById(eid));
+		Employee emp = empRepo.getById(eid);
+		/* Just set the deleted date and inactive in employee. */
+		emp.setDeletedDate(new Timestamp(System.currentTimeMillis()));
+		emp.setActive(false);
 	}
 
 	/* Update Employee function. Anything can be updated, except their eid.
 	 */
 	public void update(Employee emp) throws Exception {
-		if (!empRepo.existsById(emp.getEid())) throw new EmployeeNotFound("No such empolyee ID.");
+		if (!empRepo.existsById(emp.getEid())) throw new EmployeeNotFound("No such employee ID.");
 		empRepo.delete(empRepo.getById(emp.getEid()));
 		this.create(emp);
+	}
+
+	/* Remove project from employee.
+	If no project is found in the employee, then return NoAssignedProject else delete the project
+	 */
+	public void dropProject(String eid) throws Exception {
+		if (!empRepo.existsById(eid)) throw new EmployeeNotFound("No such employee ID.");
+		Employee emp = empRepo.getById(eid);
+		Project prj = emp.getPid();
+		if (prj == null) throw new NoAssignedProject("The employee doesn't have any project assigned.");
+		emp.setPid(null);
+	}
+
+	/* Add project to employee.
+	 */
+	public Employee addProject(String data) throws Exception {
+		JSONObject jsonObject = new JSONObject(data);
+		String eid = jsonObject.getString("eid");
+		String pid = jsonObject.getString("pid");
+
+		if (!empRepo.existsById(eid)) throw new EmployeeNotFound("No such employee ID.");
+		if (!projectRepo.existsById(pid)) throw new ProjectNotFound("No such project ID.");
+
+		Employee emp = empRepo.getById(eid);
+		if (emp.getPid() != null) throw new ProjectAlreadyPresent("Project already assigned to the employee.");
+		Project prj = projectRepo.getById(eid);
+		emp.setPid(prj);
+		empRepo.save(emp);
+
+		return emp;
 	}
 }
