@@ -173,6 +173,19 @@ public class EmployeeController {
             if (currentUser.getEid() != emp.getEid() && currentUser.getRole() != "ROLE_ADMIN")
                 throw new UnauthorizedUser("You are not authorized for this request.");
 
+            if (currentUser.getEid() == emp.getEid()) {
+                if (currentUser.getEmail() != emp.getEmail())
+                    throw new UnauthorizedUser("You are not authorized for this request.");
+                if (currentUser.getPhone() != emp.getPhone())
+                    throw new UnauthorizedUser("You are not authorized for this request.");
+                if (currentUser.getLid() != emp.getLid())
+                    throw new UnauthorizedUser("You are not authorized for this request.");
+                if (currentUser.getPid() != emp.getPid())
+                    throw new UnauthorizedUser("You are not authorized for this request.");
+                if (currentUser.getDpt() != emp.getDpt())
+                    throw new UnauthorizedUser("You are not authorized for this request.");
+            }
+
             employeeService.update(emp);
             obj = new EmployeeDetailsBasic(emp.getEid(), emp.getFname(), emp.getSname());
             return ResponseEntity.ok().body(obj);
@@ -195,7 +208,7 @@ public class EmployeeController {
         try {
             /* Check if the user who is making the request is having the same eid, or is admin or not. */
             Employee currentUser = currentUser();
-            if (currentUser.getEid() != eid && currentUser.getRole() != "ROLE_ADMIN")
+            if (currentUser.getRole() != "ROLE_ADMIN")
                 throw new UnauthorizedUser("You are not authorized for this request.");
 
             employeeService.dropProject(eid);
@@ -227,7 +240,7 @@ public class EmployeeController {
             JSONObject jsonObject = new JSONObject(data);
             String eid = jsonObject.getString("eid");
             Employee currentUser = currentUser();
-            if (currentUser.getEid() != eid && currentUser.getRole() != "ROLE_ADMIN")
+            if (currentUser.getRole() != "ROLE_ADMIN")
                 throw new UnauthorizedUser("You are not authorized for this request.");
 
             Employee emp = employeeService.grantLeave(data);
@@ -258,7 +271,7 @@ public class EmployeeController {
             JSONObject jsonObject = new JSONObject(data);
             String eid = jsonObject.getString("eid");
             Employee currentUser = currentUser();
-            if (currentUser.getEid() != eid && currentUser.getRole() != "ROLE_ADMIN")
+            if (currentUser.getRole() != "ROLE_ADMIN")
                 throw new UnauthorizedUser("You are not authorized for this request.");
 
             Employee emp = employeeService.addProject(data);
