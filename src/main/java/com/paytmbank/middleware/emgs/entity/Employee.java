@@ -2,6 +2,7 @@ package com.paytmbank.middleware.emgs.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -45,4 +46,7 @@ public class Employee {
 	@ManyToOne
 	@JoinColumn(name = "rid")
 	private Role rid;
+
+	@OneToMany(mappedBy = "raisedBy")
+	private List<Ticket> tickets;
 }
