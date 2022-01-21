@@ -13,6 +13,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
+    /* Remove this and add some hidden password */
     private String SECRET_KEY = "secret";
 
     public String extractUsername(String token) {

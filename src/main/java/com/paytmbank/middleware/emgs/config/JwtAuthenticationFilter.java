@@ -28,7 +28,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         /* The jwt token is received in the authorization header. Any frontend framework must follow. */
         final String authHeader = request.getHeader("Authorization");
-        System.out.println("Authorization: " + authHeader);
 
         String username = null;
         String jwt = null;
