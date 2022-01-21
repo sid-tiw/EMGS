@@ -1,12 +1,15 @@
 package com.paytmbank.middleware.emgs.controller;
 
 import com.paytmbank.middleware.emgs.details.EmployeeDetailsBasic;
+import com.paytmbank.middleware.emgs.details.TicketDetailsBasic;
 import com.paytmbank.middleware.emgs.entity.Employee;
+import com.paytmbank.middleware.emgs.entity.Ticket;
 import com.paytmbank.middleware.emgs.exception.EmployeeNotFound;
 import com.paytmbank.middleware.emgs.exception.UnauthorizedUser;
 import com.paytmbank.middleware.emgs.security.UserSecurity;
 import com.paytmbank.middleware.emgs.service.EmployeeService;
 
+import com.paytmbank.middleware.emgs.service.TicketService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,11 +18,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    TicketService ticketService;
 
     Employee currentUser() throws EmployeeNotFound {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -286,6 +294,40 @@ public class EmployeeController {
             obj.setStatus("Failure!");
             obj.setErrorDesc(e.getLocalizedMessage());
             return ResponseEntity.badRequest().body(obj);
+        }
+    }
+
+    /* To raise a support ticket, to do an operation that can only be done by admin. */
+    @PostMapping("/raiseTicket")
+    public ResponseEntity<?> raiseTicket(@RequestBody Ticket tc) {
+        TicketDetailsBasic obj = new TicketDetailsBasic();
+        try {
+            /* Find which user raised the ticket. Associate the user with the ticket. */
+            Employee currentUser = currentUser();
+            tc.setRaisedBy(currentUser);
+
+            ticketService.saveTicket(tc);
+
+            obj = new TicketDetailsBasic(tc);
+
+            return ResponseEntity.ok().body(obj);
+        } catch (Exception e) {
+            obj.setStatus("Failure!");
+            obj.setErrorDesc(e.getLocalizedMessage());
+
+            return ResponseEntity.internalServerError().body(obj);
+        }
+    }
+
+    @GetMapping("/viewTickets")
+    public ResponseEntity<?> viewTickets(@RequestParam(value = "p", defaultValue = "1") String pageNumber) {
+        try {
+            int pgNo = Integer.valueOf(pageNumber);
+            List<Ticket> pageTickets = ticketService.listAll(pgNo);
+
+            return ResponseEntity.ok().body(pageTickets);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Some error occurred.");
         }
     }
 }
