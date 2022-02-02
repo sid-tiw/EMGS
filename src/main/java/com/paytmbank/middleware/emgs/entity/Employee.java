@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.paytmbank.middleware.emgs.dto.EmployeeDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +23,8 @@ public class Employee {
 	private String password;
 	private String role;
 
-	private String fname, sname;
+	private String fname;
+	private String sname;
 	private Timestamp createdDate;
 	private Timestamp deletedDate;
 	private boolean isActive;
@@ -49,4 +51,22 @@ public class Employee {
 
 	@OneToMany(mappedBy = "raisedBy")
 	private List<Ticket> tickets;
+
+	public Employee(EmployeeDTO employeeDTO) {
+		eid = employeeDTO.getEid();
+		email = employeeDTO.getEmail();
+		phone = employeeDTO.getPhone();
+		password = employeeDTO.getPassword();
+		role = employeeDTO.getRole();
+		fname = employeeDTO.getFname();
+		sname = employeeDTO.getSname();
+		createdDate = employeeDTO.getCreatedDate();
+		deletedDate = employeeDTO.getDeletedDate();
+		isActive = employeeDTO.isActive();
+		dpt = employeeDTO.getDpt();
+		pid = employeeDTO.getPid();
+		lid = employeeDTO.getLid();
+		rid = employeeDTO.getRid();
+		tickets = employeeDTO.getTickets();
+	}
 }

@@ -1,5 +1,6 @@
 package com.paytmbank.middleware.emgs.entity;
 
+import com.paytmbank.middleware.emgs.dto.TicketDTO;
 import lombok.Getter;
 import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
@@ -23,4 +24,13 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "raisedBy")
     private Employee raisedBy;
+
+    public Ticket(TicketDTO ticketDTO) {
+        id = ticketDTO.getId();
+        title = ticketDTO.getTitle();
+        description = ticketDTO.getDescription();
+        createdDate = ticketDTO.getCreatedDate();
+        resolvedDate = ticketDTO.getResolvedDate();
+        raisedBy = ticketDTO.getRaisedBy();
+    }
 }
