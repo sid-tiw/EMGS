@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.paytmbank.middleware.emgs.dto.DepartmentDTO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,12 @@ public class Department {
 
 	@OneToMany(mappedBy = "dpt")
 	private List<Project> projects;
+
+	public Department(DepartmentDTO deptDTO) {
+		deptID = deptDTO.getDeptID();
+		name = deptDTO.getName();
+		desc = deptDTO.getDesc();
+		emps = deptDTO.getEmps();
+		projects = deptDTO.getProjects();
+	}
 }

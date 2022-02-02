@@ -2,7 +2,6 @@ package com.paytmbank.middleware.emgs.controller;
 
 import com.paytmbank.middleware.emgs.details.JwtRequest;
 import com.paytmbank.middleware.emgs.security.JwtUtil;
-import com.paytmbank.middleware.emgs.security.UserSecurity;
 import com.paytmbank.middleware.emgs.service.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public class JwtController {
     JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> createJwtToken(@RequestBody JwtRequest jrq) {
+    public ResponseEntity<String> createJwtToken(@RequestBody JwtRequest jrq) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jrq.getUsername(), jrq.getPassword()));
         } catch (Exception e) {

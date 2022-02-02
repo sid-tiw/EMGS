@@ -7,7 +7,9 @@ import lombok.Setter;
 public class EmployeeDetailsBasic {
     private String status;
     private String errorDesc;
-    private String fname, lname, eid;
+    private String fname;
+    private String lname;
+    private String eid;
 
     public EmployeeDetailsBasic() {
         errorDesc = "No Error.";
